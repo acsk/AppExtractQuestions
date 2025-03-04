@@ -74,7 +74,7 @@ function extractQuestions(filePath) {
     return { questions };
 }
 
-const file = 'simulado-5'
+const file = 'simulado-4'
 
 const filePath = `C:/TEMP/AppExtractQuestions/src/htmls/${file}.html`;
 const result = extractQuestions(filePath);
