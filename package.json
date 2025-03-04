@@ -1,0 +1,16 @@
+{
+  "name": "app-extract-questions",
+  "version": "1.0.0",
+  "description": "A JavaScript application for extracting questions.",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "htmlparser2": "^10.0.0"
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
+}
