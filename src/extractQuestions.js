@@ -9,38 +9,38 @@ function extractQuestions(filePath) {
 
     const questions = [];
 
+    // Seleciona os elementos das perguntas
     const questionElements = selectAll('.result-pane--question-result-pane--sIcOh', document);
     questionElements.forEach((element, index) => {
-        const questionText = selectAll('#question-prompt p', element)
-            .map(p => textContent(p).trim())
-            .join(' ')
-            .replace(/\s+/g, ' ');
+        // Captura o texto da pergunta e remove espaços extras
+        const questionTextElement = selectOne('#question-prompt', element);
+        const questionText = questionTextElement ? textContent(questionTextElement).replace(/\s+/g, ' ').trim() : '';
 
         const options = [];
 
-        // Captura todas as opções de resposta
+        // Captura todas as opções de resposta e remove espaços extras
         const optionElements = selectAll('.result-pane--answer-result-pane--Niazi', element);
         optionElements.forEach((optionElement, oIndex) => {
-            const optionText = textContent(selectOne('.rt-scaffolding p', optionElement)).trim();
+            const optionTextElement = selectOne('#answer-text', optionElement);
+            const optionText = optionTextElement ? textContent(optionTextElement).replace(/\s+/g, ' ').trim() : '';
             options.push({
                 index: oIndex + 1,
                 text: optionText
             });
         });
 
-        const explanation = selectAll('.overall-explanation-pane--overall-explanation--G-hLQ p', element)
-            .map(p => textContent(p).trim())
-            .join(' ')
-            .replace(/\s+/g, ' ');
+        // Captura a explicação (se existir) e remove espaços extras
+        const explanationElement = selectOne('.overall-explanation-pane--overall-explanation--G-hLQ', element);
+        const explanation = explanationElement ? textContent(explanationElement).replace(/\s+/g, ' ').trim() : '';
 
         // Adiciona a pergunta ao array
         questions.push({
-            id: `question${index + 1}`,  // Interpolação correta
-            topicId: 42, 
-            levelId: 1, 
+            id: `question${index + 1}`,
+            topicId: 42,
+            levelId: 1,
             question: questionText,
             options: options,
-            answer: [], // Inicializa corretamente para evitar 'undefined'
+            answer: [],
             explanation: explanation
         });
     });
@@ -52,15 +52,13 @@ function extractQuestions(filePath) {
             const isCorrect = selectOne('.answer-result-pane--answer-correct--PLOEU', optionElement);
 
             if (isCorrect) {
-                // Certifica-se de que a questão está inicializada
                 if (!questions[qIndex]) {
-                    questions[qIndex] = { answer: [] }; // Inicializa corretamente
+                    questions[qIndex] = { answer: [] };
                 }
                 questions[qIndex].answer.push(oIndex + 1);
             }
         });
 
-        // Se não encontrou resposta correta, define como null
         if (questions[qIndex].answer.length === 0) {
             questions[qIndex].answer = null;
         }
@@ -68,15 +66,18 @@ function extractQuestions(filePath) {
 
     // Exibe os resultados no console
     questions.forEach((question, index) => {
-        console.log(`Question ${index + 1} correct answers: ${question.answer ? question.answer.join(', ') : 'None'}`);
+        console.log(`Question ${index + 1}: ${question.question}`);
+        console.log(`Options: ${question.options.map(opt => opt.text).join(', ')}`);
+        console.log(`Correct answers: ${question.answer ? question.answer.join(', ') : 'None'}`);
     });
 
     return { questions };
 }
 
-const file = 'simulado-6'
+const file = 'simulado-8';
 
 const filePath = `C:/TEMP/AppExtractQuestions/src/htmls/${file}.html`;
+console.log(`Lendo arquivo: ${filePath}`);
 const result = extractQuestions(filePath);
 
 // Define o caminho do arquivo JSON de saída
