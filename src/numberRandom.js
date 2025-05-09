@@ -27,7 +27,7 @@ function updateQuestionIds(filePath) {
 }
 
 // Caminho do arquivo JSON
-const filePath = path.join(__dirname, 'json', 'simulado-8.json');
+const filePath = path.join(__dirname, 'json', 'simulado-10.json');
 
 // Executa a função
 updateQuestionIds(filePath);
